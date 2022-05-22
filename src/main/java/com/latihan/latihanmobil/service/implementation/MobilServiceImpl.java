@@ -121,6 +121,23 @@ public class MobilServiceImpl implements MobilService {
     }
 
     @Override
+    public MobilDTO getById(Long id) {
+        Optional<Mobil> mobilOptional = mobilRepository.findById(id);
+        Mobil mobil = new Mobil();
+
+        if (mobilOptional.isPresent()) {
+            mobil = mobilOptional.get();
+            String brand = mobil.getBrand();
+            System.out.println(brand);
+            Double price = mobil.getMobilDetail().getPrice();
+            System.out.println("Rp. " + price);
+            return convertMobiltoMobilDTO(mobil);
+        }
+
+        return null;
+    }
+
+    @Override
     public MobilDTO deleteById(Integer id) {
         Optional<Mobil> mobilOptional = mobilRepository.findById(id.longValue());
         Mobil mobil = null;

@@ -10,4 +10,6 @@ public interface MobilService {
     public ResponseMobilDTO getAll(int pageNo, int pageSize);
 
     public MobilDTO deleteById(Integer id);
+
+    public MobilDTO getById(Long id);
 }

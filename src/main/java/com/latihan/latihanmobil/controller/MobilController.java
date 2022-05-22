@@ -28,6 +28,12 @@ public class MobilController {
         return new ResponseEntity<>(responseMobilDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<MobilDTO> getById(@PathVariable("id") Long id) {
+        MobilDTO mobilDTO = this.mobilService.getById(id);
+        return new ResponseEntity<>(mobilDTO, HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<MobilDTO> create(@RequestBody MobilDTO mobilDTO) {
         MobilDTO mobilDTOCreated = this.mobilService.create(mobilDTO);
