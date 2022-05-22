@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.latihan.latihanmobil.DTO.MobilDTO;
 import com.latihan.latihanmobil.DTO.MobilDetailDTO;
+import com.latihan.latihanmobil.DTO.ResponseMobilDTO;
 import com.latihan.latihanmobil.entity.Mobil;
 import com.latihan.latihanmobil.entity.MobilDetail;
 import com.latihan.latihanmobil.repository.MobilRepository;
@@ -67,7 +68,8 @@ public class MobilServiceImpl implements MobilService {
     }
 
     @Override
-    public List<MobilDTO> getAll(int pageNo, int pageSize) {
+    public ResponseMobilDTO getAll(int pageNo, int pageSize) {
+        ResponseMobilDTO responseMobilDTO = new ResponseMobilDTO();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 
         Page<Mobil> mobilList = mobilRepository.findAll(pageable);
@@ -77,7 +79,13 @@ public class MobilServiceImpl implements MobilService {
             MobilDTO mobilDTO = convertMobiltoMobilDTO(mobil);
             mobilDTOList.add(mobilDTO);
         }
-        return mobilDTOList;
+
+        responseMobilDTO.setMobilDTO(mobilDTOList);
+        responseMobilDTO.setLoadSuccess(true);
+        responseMobilDTO.setTotalPage(mobilList.getTotalPages());
+        responseMobilDTO.setTotalData(mobilList.getTotalElements());
+
+        return responseMobilDTO;
     }
 
 }

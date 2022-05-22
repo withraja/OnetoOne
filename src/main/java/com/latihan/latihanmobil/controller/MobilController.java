@@ -1,8 +1,7 @@
 package com.latihan.latihanmobil.controller;
 
-import java.util.List;
-
 import com.latihan.latihanmobil.DTO.MobilDTO;
+import com.latihan.latihanmobil.DTO.ResponseMobilDTO;
 import com.latihan.latihanmobil.service.MobilService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ public class MobilController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<MobilDTO>> getAll(@RequestParam int pageNo, @RequestParam int pageSize) {
-        List<MobilDTO> mobilDTOList = this.mobilService.getAll(pageNo, pageSize);
-        return new ResponseEntity<>(mobilDTOList, HttpStatus.OK);
+    public ResponseEntity<ResponseMobilDTO> getAll(@RequestParam int pageNo, @RequestParam int pageSize) {
+        ResponseMobilDTO responseMobilDTO = this.mobilService.getAll(pageNo, pageSize);
+        return new ResponseEntity<>(responseMobilDTO, HttpStatus.OK);
     }
 }
