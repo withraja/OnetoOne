@@ -8,4 +8,6 @@ public interface MobilService {
     public MobilDTO create(MobilDTO mobilDTO);
 
     public ResponseMobilDTO getAll(int pageNo, int pageSize);
+
+    public MobilDTO deleteById(Integer id);
 }

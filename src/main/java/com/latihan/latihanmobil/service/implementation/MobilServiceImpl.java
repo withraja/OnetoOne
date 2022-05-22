@@ -2,6 +2,7 @@ package com.latihan.latihanmobil.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.latihan.latihanmobil.DTO.MobilDTO;
@@ -38,20 +39,45 @@ public class MobilServiceImpl implements MobilService {
     }
 
     private MobilDTO convertMobiltoMobilDTO(Mobil mobilCreated) {
-        MobilDTO mobilDTOCreated = new MobilDTO();
-        mobilDTOCreated.setId(mobilCreated.getId());
-        mobilDTOCreated.setIsDeleted(mobilCreated.getIsDeleted());
-        mobilDTOCreated.setBrand(mobilCreated.getBrand());
 
-        MobilDetailDTO mobilDetailDTOCreated = new MobilDetailDTO();
-        mobilDetailDTOCreated.setId(mobilCreated.getMobilDetail().getId());
-        mobilDetailDTOCreated.setColor(mobilCreated.getMobilDetail().getColor());
-        mobilDetailDTOCreated.setIsNew(mobilCreated.getMobilDetail().getIsNew());
-        mobilDetailDTOCreated.setYear(mobilCreated.getMobilDetail().getYear());
-        mobilDetailDTOCreated.setPrice(mobilCreated.getMobilDetail().getPrice());
+        if (mobilCreated.getId() == null) {
+            // CREATE DATA BARU
+            MobilDTO mobilDTOCreated = new MobilDTO();
+            mobilDTOCreated.setId(mobilCreated.getId());
+            mobilDTOCreated.setIsDeleted(mobilCreated.getIsDeleted());
+            mobilDTOCreated.setBrand(mobilCreated.getBrand());
 
-        mobilDTOCreated.setMobilDetailDTO(mobilDetailDTOCreated);
-        return mobilDTOCreated;
+            MobilDetailDTO mobilDetailDTOCreated = new MobilDetailDTO();
+            mobilDetailDTOCreated.setId(mobilCreated.getMobilDetail().getId());
+            mobilDetailDTOCreated.setColor(mobilCreated.getMobilDetail().getColor());
+            mobilDetailDTOCreated.setIsNew(mobilCreated.getMobilDetail().getIsNew());
+            mobilDetailDTOCreated.setYear(mobilCreated.getMobilDetail().getYear());
+            mobilDetailDTOCreated.setPrice(mobilCreated.getMobilDetail().getPrice());
+
+            mobilDTOCreated.setMobilDetailDTO(mobilDetailDTOCreated);
+            return mobilDTOCreated;
+        }
+
+        // UPDATE DATA LAMA
+        else {
+            Optional<Mobil> existingMobilOptional = mobilRepository.findById(mobilCreated.getId());
+            Mobil existingMobil = existingMobilOptional.get();
+
+            MobilDTO mobilDTOUpdated = new MobilDTO();
+            mobilDTOUpdated.setId(existingMobil.getId());
+            mobilDTOUpdated.setIsDeleted(existingMobil.getIsDeleted());
+            mobilDTOUpdated.setBrand(existingMobil.getBrand());
+
+            MobilDetailDTO mobilDetailDTOUpdated = new MobilDetailDTO();
+            mobilDetailDTOUpdated.setId(existingMobil.getMobilDetail().getId());
+            mobilDetailDTOUpdated.setColor(existingMobil.getMobilDetail().getColor());
+            mobilDetailDTOUpdated.setIsNew(existingMobil.getMobilDetail().getIsNew());
+            mobilDetailDTOUpdated.setYear(existingMobil.getMobilDetail().getYear());
+            mobilDetailDTOUpdated.setPrice(existingMobil.getMobilDetail().getPrice());
+
+            mobilDTOUpdated.setMobilDetailDTO(mobilDetailDTOUpdated);
+            return mobilDTOUpdated;
+        }
     }
 
     private Mobil convertMobilDTOtoMobil(MobilDTO mobilDTO) {
@@ -92,6 +118,22 @@ public class MobilServiceImpl implements MobilService {
         responseMobilDTO.setTotalData(mobilList.getTotalElements());
 
         return responseMobilDTO;
+    }
+
+    @Override
+    public MobilDTO deleteById(Integer id) {
+        Optional<Mobil> mobilOptional = mobilRepository.findById(id.longValue());
+        Mobil mobil = null;
+        if (mobilOptional.isPresent()) {
+            mobil = mobilOptional.get();
+            mobil.setIsDeleted(true);
+            Mobil mobilUpdated = mobilRepository.save(mobil);
+
+            MobilDTO mobilDTOUpdated = convertMobiltoMobilDTO(mobilUpdated);
+            return mobilDTOUpdated;
+        }
+
+        return null;
     }
 
 }
