@@ -8,5 +8,5 @@ public interface MobilService {
 
     public MobilDTO create(MobilDTO mobilDTO);
 
-    public List<MobilDTO> getAll();
+    public List<MobilDTO> getAll(int pageNo, int pageSize);
 }
