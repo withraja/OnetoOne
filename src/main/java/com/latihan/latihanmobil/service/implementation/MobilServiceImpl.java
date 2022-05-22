@@ -2,6 +2,7 @@ package com.latihan.latihanmobil.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.latihan.latihanmobil.DTO.MobilDTO;
 import com.latihan.latihanmobil.DTO.MobilDetailDTO;
@@ -79,6 +80,11 @@ public class MobilServiceImpl implements MobilService {
             MobilDTO mobilDTO = convertMobiltoMobilDTO(mobil);
             mobilDTOList.add(mobilDTO);
         }
+
+        mobilDTOList = mobilDTOList.stream().filter(mobilDTO -> {
+            return mobilDTO.getIsDeleted() != null && mobilDTO.getIsDeleted() == false;
+        })
+                .collect(Collectors.toList());
 
         responseMobilDTO.setMobilDTO(mobilDTOList);
         responseMobilDTO.setLoadSuccess(true);
