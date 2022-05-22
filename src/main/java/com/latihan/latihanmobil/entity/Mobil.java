@@ -32,7 +32,7 @@ public class Mobil {
     private Boolean isDeleted;
 
     @OneToOne(cascade = CascadeType.ALL) // OneToOne
-    @JoinColumn(name = "mobil_detail_id", referencedColumnName = "id")
+    @JoinColumn(name = "mobil_detail_id", referencedColumnName = "id", unique = true)
     private MobilDetail mobilDetail;
 
 }
