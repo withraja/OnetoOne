@@ -115,7 +115,7 @@ public class MobilServiceImpl implements MobilService {
         responseMobilDTO.setMobilDTO(mobilDTOList);
         responseMobilDTO.setLoadSuccess(true);
         responseMobilDTO.setTotalPage(mobilList.getTotalPages());
-        responseMobilDTO.setTotalData(mobilList.getTotalElements());
+        responseMobilDTO.setTotalData(mobilDTOList.size());
 
         return responseMobilDTO;
     }

@@ -12,5 +12,5 @@ public class ResponseMobilDTO {
     private List<MobilDTO> mobilDTO;
     private Boolean loadSuccess;
     private Integer totalPage;
-    private Long totalData;
+    private Integer totalData;
 }
