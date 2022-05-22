@@ -1,5 +1,8 @@
 package com.latihan.latihanmobil.service.implementation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.latihan.latihanmobil.DTO.MobilDTO;
 import com.latihan.latihanmobil.DTO.MobilDetailDTO;
 import com.latihan.latihanmobil.entity.Mobil;
@@ -58,6 +61,18 @@ public class MobilServiceImpl implements MobilService {
         mobilDetail.setPrice(mobilDTO.getMobilDetailDTO().getPrice());
         mobil.setMobilDetail(mobilDetail);
         return mobil;
+    }
+
+    @Override
+    public List<MobilDTO> getAll() {
+        List<Mobil> mobilList = mobilRepository.findAll();
+        List<MobilDTO> mobilDTOList = new ArrayList<>();
+
+        for (Mobil mobil : mobilList) {
+            MobilDTO mobilDTO = convertMobiltoMobilDTO(mobil);
+            mobilDTOList.add(mobilDTO);
+        }
+        return mobilDTOList;
     }
 
 }
